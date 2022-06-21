@@ -26,7 +26,7 @@
 	position: relative;
 }
 
-.wp-block-gutenberg-examples-example-05-recipe-card-esnext h2 {
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext h1 {
 	font-size: 1.5em;
 }
 
@@ -34,8 +34,8 @@
 	padding-left: 2.5em !important; /* Needs fix in Gutenberg. */
 }
 
-.wp-block-gutenberg-examples-example-05-recipe-card-esnext:after { 
-	content:""; 
-	clear:both; 
-	display: table; 
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext:after {
+	content:"";
+	clear:both;
+	display: table;
 }
