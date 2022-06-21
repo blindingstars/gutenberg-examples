@@ -14,13 +14,28 @@ const Save = ( props ) => {
 		<div { ...blockProps }>
 			<RichText.Content tagName="h1" value={ title } />
 
+			<dl className="cooking-time">
+				<div>
+					<dt>Prep Time</dt>
+					<dd>15 mins</dd>
+				</div>
+				<div>
+					<dt>Cook Time</dt>
+					<dd>15 mins</dd>
+				</div>
+				<div>
+					<dt>Total Time</dt>
+					<dd>30 mins</dd>
+				</div>
+			</dl>
+
 			{ mediaURL && (
 				<img
 					className="recipe-image"
 					src={ mediaURL }
 					alt={ __( 'Recipe Image', 'gutenberg-examples' ) }
 				/>
-			) }
+			)}
 
 			<h3>{ __( 'Ingredients', 'gutenberg-examples' ) }</h3>
 			<RichText.Content
