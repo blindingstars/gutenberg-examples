@@ -7,10 +7,10 @@
  */
 .wp-block-gutenberg-examples-example-05-recipe-card-esnext .recipe-image {
 	background: #f1f1f1;
-	float: right;
-	width: 50%;
+	width: 100%;
 	min-height: 100px;
 	text-align: center;
+	border-radius: var(--border-radius, 5px);
 }
 
 .wp-block-gutenberg-examples-example-05-recipe-card-esnext .recipe-image button {
@@ -21,31 +21,60 @@
 	margin: 0;
 	padding: 0;
 	display: block;
+	height: auto;
+	min-height: 100px;
 }
 
 .wp-block-gutenberg-examples-example-05-recipe-card-esnext .recipe-image img {
 	display: block;
 	z-index: 1;
 	position: relative;
+	width: 100%;
+	height: 100%;
+	-o-object-fit: cover;
+	   object-fit: cover;
+	-o-object-position: center;
+	   object-position: center;
 }
 
-.wp-block-gutenberg-examples-example-05-recipe-card-esnext h1 {
-	font-size: 1.5em;
+@media screen and (min-width: 600px) {
+	.wp-block-gutenberg-examples-example-05-recipe-card-esnext .recipe-image,
+	.wp-block-gutenberg-examples-example-05-recipe-card-esnext .recipe-image button.image-button {
+		float: right;
+		width: 250px;
+		height: 250px;
+		-o-object-fit: cover;
+		   object-fit: cover;
+		overflow: hidden;
+		margin-left: 30px;
+		margin-bottom: 30px;
+	}
 }
 
-.wp-block-gutenberg-examples-example-05-recipe-card-esnext dl.cooking-time {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 2rem;
-	padding: 10px;
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext h1.recipe-title {
+	font-size: var(--wp--preset--font-size--huge, 3rem);
+	margin-top: 0;
+}
+
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext h2.recipe-subhead {
+	font-size: var(--wp--preset--font-size--x-large, 2rem);
+	margin-bottom: 20px;
+}
+
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext .cooking-time {
+	display: flex;
+	gap: 10px;
 	line-height: 1;
-	background: var(--accent-color-50, #f5fbfb);
-	width: -webkit-max-content;
-	width: -moz-max-content;
-	width: max-content;
 }
 
-.wp-block-gutenberg-examples-example-05-recipe-card-esnext dl.cooking-time dt {
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext .cooking-time div {
+	padding: 10px;
+	background: var(--accent-color-50, #f5fbfb);
+	font-size: 0.75em;
+	border-radius: var(--border-radius, 5px);
+}
+
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext .cooking-time dt {
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
 	font-weight: bold;
@@ -58,8 +87,41 @@
 	margin: 0;
 }
 
-.wp-block-gutenberg-examples-example-05-recipe-card-esnext ul {
-	padding-left: 2.5em !important; /* Needs fix in Gutenberg. */
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext .nutritional-data {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	font-size: 0.75em;
+	color: var(--muted-color, #777);
+	margin-top: 2rem;
+	padding-top: 10px;
+	border-top: 1px solid var(--accent-color-100, #e4eded);
+}
+
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext .nutritional-data :is(dd, dt) {
+	display: inline;
+	margin: 0;
+}
+
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext .nutritional-data dt {
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	font-weight: bold;
+	color: var(--accent-color-700, #1a6b6b);
+}
+
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext :is(ul, ol) {
+	padding-left: 30px;
+	line-height: var(--wp--custom--typography--line-height--medium, 1.4);
+}
+
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext :is(ul, ol) li:nth-child(n+2) {
+	margin-top: 0.5em;
+}
+
+.wp-block-gutenberg-examples-example-05-recipe-card-esnext li::marker {
+	color: var(--accent-color-300, #8db5b5);
+	font-weight: bolder;
 }
 
 .wp-block-gutenberg-examples-example-05-recipe-card-esnext:after {

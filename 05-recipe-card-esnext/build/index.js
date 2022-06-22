@@ -2,6 +2,53 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/components/NutritionalData.js":
+/*!*******************************************!*\
+  !*** ./src/components/NutritionalData.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils_getNutritionData__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/getNutritionData */ "./src/utils/getNutritionData.js");
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+const NutritionalData = _ref => {
+  let {
+    ingredients
+  } = _ref;
+
+  if (!ingredients) {
+    return null;
+  }
+
+  const nutritionalData = (0,_utils_getNutritionData__WEBPACK_IMPORTED_MODULE_2__.getFoodNutrition)(ingredients);
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dl", {
+    className: "nutritional-data"
+  }, Object.entries(nutritionalData).map(_ref2 => {
+    let [key, item] = _ref2;
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      key: key
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dt", null, item.label, ":"), ' ', (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dd", null, item.value, item.unit));
+  }));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NutritionalData);
+
+/***/ }),
+
 /***/ "./src/edit.js":
 /*!*********************!*\
   !*** ./src/edit.js ***!
@@ -20,11 +67,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_NutritionalData__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/NutritionalData */ "./src/components/NutritionalData.js");
 
 
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -59,7 +108,6 @@ const Edit = props => {
     setAttributes({
       ingredients: value
     });
-    console.log(getFoodNutrition(value));
   };
 
   const onChangeInstructions = value => {
@@ -68,62 +116,12 @@ const Edit = props => {
     });
   };
 
-  function getFoodNutrition(value) {
-    const initials = {
-      calories: 0,
-      carbs: 0,
-      fat: 0
-    };
-    const caloriesData = {
-      egg: {
-        calories: 105,
-        carbs: 42,
-        fat: 1
-      },
-      milk: {
-        calories: 52,
-        carbs: 33,
-        fat: 4
-      },
-      butter: {
-        calories: 237,
-        carbs: 2,
-        fat: 21
-      },
-      flour: {
-        calories: 34,
-        carbs: 83,
-        fat: 6
-      },
-      cream: {
-        calories: 223,
-        carbs: 3,
-        fat: 44
-      }
-    }; // Convert list string value to array
-
-    const strippedValue = value.split('</li>').map(item => item.replace(/<\/?li\>/, '')); // Loop over the caloriesData keys
-
-    const {
-      calories,
-      carbs,
-      fat
-    } = Object.keys(caloriesData) // filter keys that are in the value (entries)
-    .filter(key => strippedValue.filter(ingredient => ingredient === key).length) // Calculate sum of calories, carbs, fat
-    .reduce((res, key) => ({
-      calories: res.calories + caloriesData[key].calories,
-      carbs: res.carbs + caloriesData[key].carbs,
-      fat: res.fat + caloriesData[key].fat
-    }), initials);
-    return `Calories: ${calories}kcal - Carbs: ${carbs}gr - fat: ${fat}gr`;
-  }
-
-  ;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
     tagName: "h1",
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Write Recipe title…', 'gutenberg-examples'),
     value: title,
-    onChange: onChangeTitle
+    onChange: onChangeTitle,
+    className: "recipe-title"
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "recipe-image"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUpload, {
@@ -142,20 +140,26 @@ const Edit = props => {
         alt: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Upload Recipe Image', 'gutenberg-examples')
       }));
     }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Ingredients', 'gutenberg-examples')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    className: "recipe-subhead"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Ingredients', 'gutenberg-examples')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
     tagName: "ul",
     multiline: "li",
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Write a list of ingredients…', 'gutenberg-examples'),
     value: ingredients,
     onChange: onChangeIngredients,
     className: "ingredients"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Instructions', 'gutenberg-examples')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
-    tagName: "div",
-    multiline: "p",
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    className: "recipe-subhead"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Instructions', 'gutenberg-examples')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
+    tagName: "ol",
+    multiline: "li",
     className: "steps",
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Write the instructions…', 'gutenberg-examples'),
     value: instructions,
     onChange: onChangeInstructions
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_NutritionalData__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    ingredients: ingredients
   }));
 };
 
@@ -219,11 +223,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_NutritionalData__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/NutritionalData */ "./src/components/NutritionalData.js");
 
 
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -239,25 +245,107 @@ const Save = props => {
   const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps.save();
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText.Content, {
     tagName: "h1",
-    value: title
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dl", {
-    className: "cooking-time"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dt", null, "Prep Time"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dd", null, "15 mins")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dt", null, "Cook Time"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dd", null, "15 mins")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dt", null, "Total Time"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dd", null, "30 mins"))), mediaURL && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    value: title,
+    className: "recipe-title"
+  }), mediaURL && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     className: "recipe-image",
     src: mediaURL,
     alt: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Recipe Image', 'gutenberg-examples')
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Ingredients', 'gutenberg-examples')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText.Content, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dl", {
+    className: "cooking-time"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dt", null, "Prep Time"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dd", null, "15 mins")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dt", null, "Cook Time"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dd", null, "15 mins")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dt", null, "Total Time"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("dd", null, "30 mins"))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    className: "recipe-subhead"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Ingredients', 'gutenberg-examples')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText.Content, {
     tagName: "ul",
     className: "ingredients",
     value: ingredients
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Instructions', 'gutenberg-examples')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText.Content, {
-    tagName: "div",
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    className: "recipe-subhead"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Instructions', 'gutenberg-examples')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText.Content, {
+    tagName: "ol",
     className: "steps",
     value: instructions
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_NutritionalData__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    ingredients: ingredients
   }));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Save);
+
+/***/ }),
+
+/***/ "./src/utils/getNutritionData.js":
+/*!***************************************!*\
+  !*** ./src/utils/getNutritionData.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getFoodNutrition": () => (/* binding */ getFoodNutrition)
+/* harmony export */ });
+const caloriesData = {
+  egg: {
+    calories: 105,
+    carbs: 42,
+    fat: 1
+  },
+  milk: {
+    calories: 52,
+    carbs: 33,
+    fat: 4
+  },
+  butter: {
+    calories: 237,
+    carbs: 2,
+    fat: 21
+  },
+  flour: {
+    calories: 34,
+    carbs: 83,
+    fat: 6
+  },
+  cream: {
+    calories: 223,
+    carbs: 3,
+    fat: 44
+  }
+};
+function getFoodNutrition(value) {
+  const initials = {
+    calories: {
+      label: 'Calories',
+      unit: 'kcal',
+      value: 0
+    },
+    carbs: {
+      label: 'Carbs',
+      unit: 'gr',
+      value: 0
+    },
+    fat: {
+      label: 'Fat',
+      unit: 'gr',
+      value: 0
+    }
+  }; // Convert list string value to array
+
+  /**
+  * @type string[]
+  */
+
+  const strippedValue = value.split('</li>').map(item => item.replace(/<\/?li\>/, '')); // Loop over the caloriesData keys
+
+  return Object.keys(caloriesData) // filter keys that are in the value (entries)
+  .filter(key => strippedValue.filter(ingredient => ingredient === key).length) // Calculate sum of calories, carbs, fat
+  .reduce((acc, curr) => {
+    acc.calories.value += caloriesData[curr].calories;
+    acc.carbs.value += caloriesData[curr].carbs;
+    acc.fat.value += caloriesData[curr].fat;
+    return acc;
+  }, initials);
+}
+;
 
 /***/ }),
 

@@ -4,6 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { RichText, MediaUpload, useBlockProps } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
+import NutritionalData from './components/NutritionalData';
 
 const Edit = ( props ) => {
 	const {
@@ -25,43 +26,10 @@ const Edit = ( props ) => {
 	};
 	const onChangeIngredients = ( value ) => {
 		setAttributes({ ingredients: value });
-		console.log(getFoodNutrition(value));
 	};
 
 	const onChangeInstructions = ( value ) => {
 		setAttributes( { instructions: value } );
-	};
-
-	function getFoodNutrition(value) {
-		const initials = {
-			calories: 0,
-			carbs: 0,
-			fat: 0,
-		}
-
-		const caloriesData = {
-			egg: { calories: 105, carbs: 42, fat: 1 },
-			milk: { calories: 52, carbs: 33, fat: 4 },
-			butter: { calories: 237, carbs: 2, fat: 21 },
-			flour: { calories: 34, carbs: 83, fat: 6 },
-			cream: { calories: 223, carbs: 3, fat: 44 }
-		}
-
-		// Convert list string value to array
-		const strippedValue = value.split('</li>').map(item => item.replace(/<\/?li\>/, ''));
-
-		// Loop over the caloriesData keys
-		const {calories, carbs, fat} = Object.keys(caloriesData)
-			// filter keys that are in the value (entries)
-			.filter(key => strippedValue.filter(ingredient=>ingredient === key).length)
-			// Calculate sum of calories, carbs, fat
-			.reduce((res, key) => ({
-				calories: res.calories + caloriesData[key].calories,
-				carbs: res.carbs + caloriesData[key].carbs,
-				fat: res.fat + caloriesData[key].fat
-			}), initials);
-
-		return `Calories: ${calories}kcal - Carbs: ${carbs}gr - fat: ${fat}gr`;
 	};
 
 	return (
@@ -73,7 +41,8 @@ const Edit = ( props ) => {
 					'gutenberg-examples'
 				) }
 				value={ title }
-				onChange={ onChangeTitle }
+				onChange={onChangeTitle}
+				className="recipe-title"
 			/>
 			<div className="recipe-image">
 				<MediaUpload
@@ -102,7 +71,10 @@ const Edit = ( props ) => {
 					) }
 				/>
 			</div>
-			<h3>{ __( 'Ingredients', 'gutenberg-examples' ) }</h3>
+
+			<h2 className='recipe-subhead'>
+				{__('Ingredients', 'gutenberg-examples')}
+			</h2>
 			<RichText
 				tagName="ul"
 				multiline="li"
@@ -114,10 +86,13 @@ const Edit = ( props ) => {
 				onChange={ onChangeIngredients }
 				className="ingredients"
 			/>
-			<h3>{ __( 'Instructions', 'gutenberg-examples' ) }</h3>
+
+			<h2 className='recipe-subhead'>
+				{__('Instructions', 'gutenberg-examples')}
+			</h2>
 			<RichText
-				tagName="div"
-				multiline="p"
+				tagName="ol"
+				multiline="li"
 				className="steps"
 				placeholder={ __(
 					'Write the instructions…',
@@ -126,6 +101,8 @@ const Edit = ( props ) => {
 				value={ instructions }
 				onChange={ onChangeInstructions }
 			/>
+
+			<NutritionalData ingredients={ingredients} />
 		</div>
 	);
 };
